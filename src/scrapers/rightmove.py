@@ -4,17 +4,18 @@ import json
 from bs4 import BeautifulSoup
 import requests
 from models import Coordinates, PropertySale
-from scrapers.base import Scraper, ScrapingNetworkError, ScrapingParsingError
+from scrapers.base import BaseScraper, ScrapingNetworkError, ScrapingParsingError
 
 
-class ZooplaScraper(Scraper):
+# TODO: scrape multiple pages with '?pageNumber=2'
+class RightmoveScraper(BaseScraper):
     def scrape(self, outward_code: str) -> list[PropertySale]:
         url = f"https://www.rightmove.co.uk/house-prices/{outward_code}.html"
         response = requests.get(url)
 
         if response.status_code != 200:
             raise ScrapingNetworkError(
-                "Zoopla bad response code: {}".format(response.status_code)
+                "Rightmove bad response code: {}".format(response.status_code)
             )
 
         data = self._parse_property_data_from_xml(response.text)
@@ -70,7 +71,7 @@ class ZooplaScraper(Scraper):
                     property_type=x["propertyType"],
                     location=Coordinates(
                         lat=x["location"]["lat"],
-                        lng=x["location"]["lng"],
+                        lon=x["location"]["lng"],
                     ),
                     new_build=last_txn["newBuild"],
                 )

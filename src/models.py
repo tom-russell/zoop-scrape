@@ -1,5 +1,4 @@
 from datetime import date
-from decimal import Decimal
 from enum import Enum
 
 from pydantic import BaseModel
@@ -8,11 +7,13 @@ from pydantic import BaseModel
 class PropertyType(str, Enum):
     FLAT = "FLAT"
     TERRACED = "TERRACED"
+    SEMI_DETACHED = "SEMI_DETACHED"
+    DETACHED = "DETACHED"
 
 
 class Coordinates(BaseModel):
-    lat: Decimal
-    lng: Decimal
+    lat: float
+    lon: float
 
 
 class PropertySale(BaseModel):
