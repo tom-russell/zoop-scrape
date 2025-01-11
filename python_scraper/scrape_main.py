@@ -1,7 +1,7 @@
 from scrapers.rightmove import RightmoveScraper
 import sqlite3
 
-from db import UnexpectedDBError, PropertySaleTable
+from db import UnexpectedDBError, PropertySaleTable, init_db
 from scrapers.base import BaseScraper, ScrapingError
 from util import london_outward_codes
 import time
@@ -32,7 +32,7 @@ def scrape_and_insert(
 
 if __name__ == "__main__":
     scraper = RightmoveScraper()
-    connection = sqlite3.connect("db/zoop.db")
+    connection = init_db()
     table = PropertySaleTable(connection)
 
     total = len(london_outward_codes())

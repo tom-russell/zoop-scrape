@@ -1,11 +1,10 @@
 from pyproj import Transformer
 
 
-LONDON_BOUNDARY_SW = tuple(505000.0, 157000.0)
-LONDON_BOUNDARY_NE = tuple(555000.0, 182000.0)
+LONDON_BOUNDARY_SW = (505000.0, 157000.0)
+LONDON_BOUNDARY_NE = (555000.0, 182000.0)
 
 
-@staticmethod
 def london_outward_codes() -> list[str]:
     outward_code_ranges = {
         "E": [
@@ -26,7 +25,6 @@ def london_outward_codes() -> list[str]:
     ]
 
 
-@staticmethod
 def coordinates_to_bng(latitude: float, longitude: float) -> tuple[int, int]:
     t = Transformer.from_crs("EPSG:4326", "EPSG:27700", always_xy=True)
     return t.transform(longitude, latitude)

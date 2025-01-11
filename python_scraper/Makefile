@@ -1,5 +1,5 @@
 run-api:
-	fastapi dev main.py
+	uvicorn api_main:app --reload
 
 run-scrape:
 	python scrape_main.py

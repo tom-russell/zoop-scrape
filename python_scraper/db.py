@@ -1,6 +1,6 @@
 import sqlite3
 
-from models import PropertySale
+from models import Coordinates, PropertySale
 
 
 INSERT_PROPERTY_SALE_QUERY_STR = """INSERT INTO property_sale (
@@ -18,6 +18,10 @@ INSERT_PROPERTY_SALE_QUERY_STR = """INSERT INTO property_sale (
 """
 
 
+def init_db() -> sqlite3.Connection:
+    return sqlite3.connect("../db/zoop.db")
+
+
 class UnexpectedDBError(Exception):
     def __init__(self, operation: str, reason: str) -> None:
         self.message = f"Failed DB operation {operation}: {reason}"
@@ -31,14 +35,38 @@ class AlreadyExistsDBError(Exception):
 
 
 class PropertySaleTable:
+    TABLE_NAME = "property_sale"
+
     def __init__(self, con: sqlite3.Connection):
         self.conn = con
 
+    def deserialise(self, data: list) -> PropertySale:
+        return PropertySale(
+            id=data[0],
+            short_address=data[1],
+            address=data[2],
+            sell_date=data[3],
+            price_gbp=data[4],
+            bedroom_count=data[5],
+            property_type=data[6],
+            location=Coordinates(lat=data[7], lon=data[8]),
+            new_build=data[9],
+        )
+
+    def get(self, count: int = 10) -> list[PropertySale]:
+        cur = self.conn.cursor()
+        res = cur.execute(f"SELECT * from {self.TABLE_NAME} limit ?", (count,))
+        data = []
+        for x in res.fetchall():
+            data.append(self.deserialise(x))
+            print(data[-1])
+        return data
+
     def insert(self, p: PropertySale, raise_if_exists: bool = True) -> None:
-        cursor = self.conn.cursor()
+        cur = self.conn.cursor()
 
         try:
-            cursor.execute(
+            cur.execute(
                 INSERT_PROPERTY_SALE_QUERY_STR,
                 (
                     p.id,
