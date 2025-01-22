@@ -13,9 +13,13 @@ INSERT_PROPERTY_SALE_QUERY_STR = """INSERT INTO property_sale (
     property_type,
     location_lat,
     location_lon,
-    new_build
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    new_build,
+    bng_easting,
+    bng_northing
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """
+SELECT_QUERY_STR = "SELECT * FROM property_sale limit ? OFFSET ?"
+UPDATE_QUERY_STR = "UPDATE property_sale SET {} where id = ?"
 
 
 def init_db() -> sqlite3.Connection:
@@ -49,18 +53,34 @@ class PropertySaleTable:
             price_gbp=data[4],
             bedroom_count=data[5],
             property_type=data[6],
-            location=Coordinates(lat=data[7], lon=data[8]),
+            location=Coordinates(
+                lat=data[7], lon=data[8], bng_easting=data[10], bng_northing=data[11]
+            ),
             new_build=data[9],
         )
 
-    def get(self, count: int = 10) -> list[PropertySale]:
+    def get(self, limit: int = 10, offset: int = 0) -> list[PropertySale]:
         cur = self.conn.cursor()
-        res = cur.execute(f"SELECT * from {self.TABLE_NAME} limit ?", (count,))
+        res = cur.execute(
+            SELECT_QUERY_STR,
+            (
+                limit,
+                offset,
+            ),
+        )
         data = []
         for x in res.fetchall():
             data.append(self.deserialise(x))
-            print(data[-1])
         return data
+
+    def update(self, id, updates: dict) -> None:
+        q = UPDATE_QUERY_STR.format(
+            ", ".join([f"{col}={val}" for col, val in updates.items()])
+        )
+        print(q)
+        cur = self.conn.cursor()
+        res = cur.execute(q, (id,))
+        self.conn.commit()
 
     def insert(self, p: PropertySale, raise_if_exists: bool = True) -> None:
         cur = self.conn.cursor()
@@ -79,6 +99,8 @@ class PropertySaleTable:
                     p.location.lat,
                     p.location.lon,
                     p.new_build,
+                    p.location.bng_easting,
+                    p.location.bng_northing,
                 ),
             )
             self.conn.commit()

@@ -4,6 +4,7 @@ import json
 from bs4 import BeautifulSoup
 import requests
 from models import Coordinates, PropertySale
+from util import coordinates_to_bng
 from scrapers.base import BaseScraper, ScrapingNetworkError, ScrapingParsingError
 
 
@@ -56,6 +57,9 @@ class RightmoveScraper(BaseScraper):
             short_address = f"{number}, {postcode}"
             hash_id = hashlib.md5(short_address.encode()).hexdigest()[:16]
 
+            bng_easting, bng_northing = coordinates_to_bng(
+                x["location"]["lat"], x["location"]["lng"]
+            )
             sales.append(
                 PropertySale(
                     id=hash_id,
@@ -72,6 +76,8 @@ class RightmoveScraper(BaseScraper):
                     location=Coordinates(
                         lat=x["location"]["lat"],
                         lon=x["location"]["lng"],
+                        bng_easting=bng_easting,
+                        bng_northing=bng_northing,
                     ),
                     new_build=last_txn["newBuild"],
                 )

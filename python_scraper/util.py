@@ -14,7 +14,7 @@ def london_outward_codes() -> list[str]:
         "N": range(1, 23),
         "NW": range(1, 12),
         "SE": range(1, 29),
-        "SW": range(1, 11),
+        "SW": range(1, 21),
         "W": range(1, 15),
         "WC": range(1, 3),
     }

@@ -1,5 +1,6 @@
 from datetime import date
 from enum import Enum
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -14,6 +15,8 @@ class PropertyType(str, Enum):
 class Coordinates(BaseModel):
     lat: float
     lon: float
+    bng_easting: Optional[float]
+    bng_northing: Optional[float]
 
 
 class PropertySale(BaseModel):
