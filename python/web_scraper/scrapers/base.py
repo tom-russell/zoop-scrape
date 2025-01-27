@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from models import PropertySale
+from common.models import PropertySale
 
 
 class ScrapingError(Exception):

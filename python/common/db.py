@@ -1,6 +1,6 @@
 import sqlite3
 
-from models import Coordinates, PropertySale
+from common.models import Coordinates, PropertySale
 
 
 INSERT_PROPERTY_SALE_QUERY_STR = """INSERT INTO property_sale (

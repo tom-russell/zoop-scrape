@@ -2,12 +2,10 @@ from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-# from db import PropertySaleTable, init_db
-from db import init_db
-from db import PropertySaleTable
-from util import LONDON_BOUNDARY_NE, LONDON_BOUNDARY_SW, coordinates_to_bng
+from common.db import init_db
+from common.db import PropertySaleTable
+from common.util import LONDON_BOUNDARY_NE, LONDON_BOUNDARY_SW, coordinates_to_bng
 import logging
-import time
 
 
 log = logging.getLogger("uvicorn.error")

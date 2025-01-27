@@ -3,9 +3,13 @@ import hashlib
 import json
 from bs4 import BeautifulSoup
 import requests
-from models import Coordinates, PropertySale
-from util import coordinates_to_bng
-from scrapers.base import BaseScraper, ScrapingNetworkError, ScrapingParsingError
+from common.models import Coordinates, PropertySale
+from common.util import coordinates_to_bng
+from web_scraper.scrapers.base import (
+    BaseScraper,
+    ScrapingNetworkError,
+    ScrapingParsingError,
+)
 
 
 # TODO: scrape multiple pages with '?pageNumber=2'

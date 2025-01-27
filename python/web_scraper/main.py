@@ -1,9 +1,7 @@
-from scrapers.rightmove import RightmoveScraper
-import sqlite3
-
-from db import UnexpectedDBError, PropertySaleTable, init_db
-from scrapers.base import BaseScraper, ScrapingError
-from util import london_outward_codes
+from common.db import UnexpectedDBError, PropertySaleTable, init_db
+from web_scraper.scrapers.rightmove import RightmoveScraper
+from web_scraper.scrapers.base import BaseScraper, ScrapingError
+from common.util import london_outward_codes
 import time
 
 REQUEST_DELAY_S = 1

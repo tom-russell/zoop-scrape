@@ -1,5 +1,3 @@
-
-
 from db import PropertySaleTable, init_db
 from util import coordinates_to_bng
 
