@@ -6,3 +6,6 @@ run:
 
 freeze:
 	pip freeze > requirements.txt
+
+make-venv:
+	python -m venv .venv
