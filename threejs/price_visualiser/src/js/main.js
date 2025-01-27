@@ -1,4 +1,5 @@
 import { SceneManager } from "./SceneManager";
+import "../style.css";
 
 const canvas = document.getElementById("canvas");
 
