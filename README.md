@@ -6,6 +6,7 @@ The project is composed of a web scraper to fetch property sale data in London p
 
 The project aims to display the map of London as a grid of cubes, with the mean sale price in that area being represented by the cube height. I plan to add controls for filtering data by number of bedrooms, focusing on certain areas, and others. 
 
+<img src='./img/zoopvisual.png' alt='London property sale data in 3D space.' width=100%>
 
 ## Project structure
 
