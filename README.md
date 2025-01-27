@@ -13,7 +13,7 @@ The project aims to display the map of London as a grid of cubes, with the mean 
 This project is structured into several parts:
  - A web-scraper written in Python, under `python/web_scraper/`.
  - A fastapi service run under `api/`.
- - A frontend utilising three.js, under `threejs/price_visualiser/`.
+ - A frontend utilising three.js, under `frontend/`.
  - The scraped data is stored in a SQLite db, under `/db`.
  - Custom one-off migrations for the database, for tasks that require python logic (i.e. cannot be performed easily in SQL). Found under `python/data_migrations`.
 
